@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>TRON Multi-Chain Wallet Demo</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <link rel="stylesheet" href="./css/style.css">
+  </head>
+  <body>
+    <header>TRON Multi-Chain Wallet Demo</header>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="wallet">
+      <i class="fas fa-wallet"></i><span>Wallet</span>
+    </button>
+    <button class="tab-btn" data-tab="send">
+      <i class="fas fa-paper-plane"></i><span>Send</span>
+    </button>
+    <button class="tab-btn" data-tab="history">
+      <i class="fas fa-clock-rotate-left"></i><span>History</span>
+    </button>
+    <button class="tab-btn" data-tab="recovery">
+      <i class="fas fa-key"></i><span>Recover</span>
+    </button>
+    <button class="tab-btn" data-tab="balance">
+      <i class="fas fa-coins"></i><span>Balance</span>
+    </button>
+      </div>
+
+      <!-- Wallet -->
+      <div id="wallet" class="tab-content active">
+        <h3>Generate TRON Wallet</h3>
+        <button class="action" onclick="runWalletTest()">
+          Generate Wallet
+        </button>
+        <pre id="walletOutput">Click "Generate Wallet"...</pre>
+      </div>
+
+      <!-- Send TRX -->
+      <div id="send" class="tab-content">
+        <h3>Send TRX</h3>
+        <label>From Address:</label>
+        <input id="fromAddr" placeholder="Enter sender TRON address" />
+        <label>Private Key (TRON/FLO/BTC) :</label>
+        <input id="privKey" placeholder="Enter private key" />
+        <label>To Address:</label>
+        <input id="toAddr" placeholder="Enter recipient TRON address" />
+        <label>Amount (TRX):</label>
+        <input id="amount" placeholder="Enter amount" />
+        <button class="action" onclick="sendTrx()">Send TRX</button>
+        <div id="sendOutput"></div>
+      </div>
+
+      <!-- History -->
+      <div id="history" class="tab-content">
+        <h3>Transaction History</h3>
+        <label>TRON Address:</label>
+        <input id="historyAddr" placeholder="Enter TRON address" />
+        <button class="action" id="loadHistory">Load History</button>
+        <button class="action" id="nextPage">Next Page</button>
+        <div id="historyOutput"></div>
+      </div>
+
+      <!-- Address Recovery -->
+      <div id="recovery" class="tab-content">
+        <h3>Recover Tron Address</h3>
+        <label>Private Key:</label>
+        <input
+          id="recoveryPrivKey"
+          placeholder="Enter private key (Tron/FLO/BTC)"
+        />
+        <button class="action" onclick="runAddressRecovery()">Recover</button>
+        <div id="recoveryOutput"></div>
+      </div>
+
+      <!-- Balance -->
+      <div id="balance" class="tab-content">
+        <h3>Check TRX Balance</h3>
+        <label>Tron Address / Private Key (FLO/BTC):</label>
+        <input
+          id="balanceAddr"
+          placeholder="Enter Tron address / Private Key"
+        />
+
+        <button class="action" onclick="runBalanceCheck()">
+          Check Balance
+        </button>
+        <div id="balanceOutput"></div>
+      </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/tronweb@5.3.2/dist/TronWeb.js"></script>
+    <script src="./scripts/btcwallet_scripts_lib.js"></script>
+    <script src="./scripts/btcOperator.js"></script>
+    <script src="./scripts/floCrypto.js"></script>
+    <script src="./scripts/components.min.js"></script>
+    <script src="./genMultichainAddress.js"></script>
+    <script src="./transactionHistory.js"></script>
+    <script src="./sendTRX.js"></script>
+    <script src="./recoverAddress.js"></script>
+    <script src="./balance.js"></script>
+    <script>
+      // Tab switching
+      const tabs = document.querySelectorAll(".tab-btn");
+      const contents = document.querySelectorAll(".tab-content");
+      tabs.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          tabs.forEach((b) => b.classList.remove("active"));
+          contents.forEach((c) => c.classList.remove("active"));
+          btn.classList.add("active");
+          document.getElementById(btn.dataset.tab).classList.add("active");
+        });
+      });
+      // Wallet generation
+      async function runWalletTest() {
+        const out = document.getElementById("walletOutput");
+        try {
+          const tronWallet = await generateTronWallet();
+          const floWallet = generateFLOFromPrivateKey(tronWallet.privateKey);
+          const btcWallet = generateBTCFromPrivateKey(tronWallet.privateKey);
+
+          out.textContent = JSON.stringify(
+            { tron: tronWallet, flo: floWallet, btc: btcWallet },
+            null,
+            2
+          );
+        } catch (err) {
+          out.textContent = "Error: " + err.message;
+        }
+      }
+
+      
+
+      // History
+      document.getElementById("loadHistory").addEventListener("click", () => {
+        const address = document.getElementById("historyAddr").value.trim();
+        if (!address) return alert("Please enter a TRON address");
+        const url = `https://api.shasta.trongrid.io/v1/accounts/${address}/transactions?limit=10`;
+        transactionHistory(url, address);
+      });
+
+      document.getElementById("nextPage").addEventListener("click", () => {
+        const address = document.getElementById("historyAddr").value.trim();
+        fetchNext(address);
+      });
+    </script>
+  </body>
+</html>
