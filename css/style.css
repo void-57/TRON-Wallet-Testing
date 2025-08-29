@@ -4519,6 +4519,49 @@ sm-popup::part(popup) {
   border-top: 1px solid var(--border-color);
 }
 
+/* Recover Page Intro */
+.recover-intro {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: var(--card-bg);
+  border-radius: var(--border-radius);
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-color);
+}
+
+.recover-intro .intro-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+  border-radius: 50%;
+  color: white;
+  font-size: 1.5rem;
+}
+
+.recover-intro .intro-content h3 {
+  margin: 0 0 0.5rem 0;
+  color: var(--text-color);
+  font-size: 1.25rem;
+}
+
+.recover-intro .intro-content p {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* Recover Actions */
+.recover-actions {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-color);
+}
+
 /* Form Help Text */
 .form-help {
   display: block;
@@ -4700,5 +4743,4 @@ sm-popup::part(popup) {
 [data-theme="dark"] .blockchain-badge.secondary {
   background: var(--text-secondary);
   color: var(--bg-primary);
-  
 }

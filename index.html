@@ -324,16 +324,19 @@
         <div id="recoverPage" class="page hidden">
           <div class="page-header">
             <h2><i class="fas fa-key"></i> Recover Tron Address</h2>
+            <p>Recover your Tron address from a private key</p>
           </div>
           <div class="card">
             <div class="form-group">
-              <label>Private Key:</label>
+              <label
+                ><i class="fas fa-key"></i> Private Key (TRX/FLO/BTC):</label
+              >
               <div class="input-with-actions">
                 <input
                   id="recoveryPrivKey"
                   class="form-input"
                   type="password"
-                  placeholder="Enter private key (Tron/FLO/BTC)"
+                  placeholder="Enter your private key (Tron hex or BTC/FLO WIF)"
                 />
                 <button
                   type="button"
@@ -353,16 +356,22 @@
                 </button>
               </div>
             </div>
-            <button
-              class="btn btn-primary btn-block"
-              onclick="runAddressRecovery()"
-              id="recoverBtn"
-            >
-              <span class="btn-text">Recover</span>
-              <span class="btn-loading" style="display: none">
-                <i class="fas fa-spinner fa-spin"></i> Loading...
-              </span>
-            </button>
+
+            <div class="recover-actions">
+              <button
+                class="btn btn-primary btn-block"
+                onclick="runAddressRecovery()"
+                id="recoverBtn"
+              >
+                <span class="btn-text"
+                  ><i class="fas fa-search"></i> Recover Address</span
+                >
+                <span class="btn-loading" style="display: none">
+                  <i class="fas fa-spinner fa-spin"></i> Recovering...
+                </span>
+              </button>
+            </div>
+
             <div id="recoveryOutput"></div>
           </div>
         </div>
@@ -585,7 +594,6 @@
         themeIcon.className = theme === "dark" ? "fas fa-sun" : "fas fa-moon";
       }
 
-      
       function notify(message, type = "success", durationMs = 3000) {
         const drawer = document.getElementById("notification_drawer");
         if (!drawer) return;

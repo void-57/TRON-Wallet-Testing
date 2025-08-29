@@ -37,7 +37,6 @@ async function recoverTronAddressFromPrivKey(privKey) {
   }
 }
 
-
 async function runAddressRecovery() {
   const privKey = document.getElementById("recoveryPrivKey").value.trim();
   const output = document.getElementById("recoveryOutput");
@@ -51,6 +50,11 @@ async function runAddressRecovery() {
   // Set loading state
   if (typeof setButtonLoading === "function") {
     setButtonLoading("recoverBtn", true);
+  }
+
+  // Show notification
+  if (typeof notify === "function") {
+    notify("Recovering address...", "success", 1500);
   }
 
   const recovered = await recoverTronAddressFromPrivKey(privKey);
