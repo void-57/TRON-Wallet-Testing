@@ -585,7 +585,7 @@
         themeIcon.className = theme === "dark" ? "fas fa-sun" : "fas fa-moon";
       }
 
-      // Notification utility (Ripple-style)
+      
       function notify(message, type = "success", durationMs = 3000) {
         const drawer = document.getElementById("notification_drawer");
         if (!drawer) return;
@@ -943,6 +943,33 @@
         const input = document.getElementById(inputId);
         input.value = "";
         input.focus();
+
+        // Clear corresponding output areas based on input field
+        switch (inputId) {
+          case "privKey":
+          case "toAddr":
+          case "amount":
+            // Clear send page output
+            const sendOutput = document.getElementById("sendOutput");
+            if (sendOutput) sendOutput.innerHTML = "";
+            break;
+          case "historyAddr":
+            // Clear history page output
+            const transactionSection =
+              document.getElementById("transactionSection");
+            if (transactionSection) transactionSection.style.display = "none";
+            break;
+          case "recoveryPrivKey":
+            // Clear recover page output
+            const recoveryOutput = document.getElementById("recoveryOutput");
+            if (recoveryOutput) recoveryOutput.innerHTML = "";
+            break;
+          case "balanceAddr":
+            // Clear balance page output
+            const balanceOutput = document.getElementById("balanceOutput");
+            if (balanceOutput) balanceOutput.innerHTML = "";
+            break;
+        }
 
         // Show notification
         if (typeof notify === "function") {

@@ -118,7 +118,7 @@ function copyToClipboard(text) {
   });
 }
 
-// ===== Ripple-style History UI integration =====
+
 // State for filtering and pagination
 let __nextUrl = null;
 let __prevUrls = [];
@@ -295,7 +295,7 @@ function __renderTransactions() {
             <div class="tx-address-row"><span class="address-label">To</span><span class="address-value">${
               to || "—"
             }</span></div>
-            <div class="tx-hash"><span class="hash-label">Hash</span><span class="hash-value" onclick=\"copyToClipboard('${hash}')\">${hash}</span></div>
+            <div class="tx-hash"><span class="hash-label">Hash</span><span class="hash-value">${hash}</span></div>
           </div>
         </div>
       </div>`;
