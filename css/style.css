@@ -4700,4 +4700,5 @@ sm-popup::part(popup) {
 [data-theme="dark"] .blockchain-badge.secondary {
   background: var(--text-secondary);
   color: var(--bg-primary);
+  
 }
